@@ -1,0 +1,97 @@
+﻿@model Livraria.Models.Cliente
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var $seuCampoTel = $("#TEL");
+        $seuCampoTel.mask('00000-0000', { reverse: true });
+
+        var $seuCampoCpf = $("#CPF");
+        $seuCampoCpf.mask('000.000.000-00', { reverse: true });
+    });
+</script>
+
+<div class="modal-dialog  modal-lg" style="z-index: 1100;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Editar Cliente</h3>
+        </div>
+        <div class="modal-body">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Id)
+
+                    <div class="control-group">
+                        <label style="font-size:155%;">@Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label" }):</label>
+                    </div>
+                    <div class="control-group">
+                        <div class="floating-label-form-group controls mb-0 pb-2">
+                            @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite o Nome" } })
+                            @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <br />
+                    <div class="control-group">
+                        <label style="font-size:155%;">@Html.LabelFor(model => model.Idade, htmlAttributes: new { @class = "control-label" }):</label>
+                    </div>
+                    <div class="control-group">
+                        <div class="floating-label-form-group controls mb-0 pb-2">
+                            @Html.EditorFor(model => model.Idade, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite a Idade" } })
+                            @Html.ValidationMessageFor(model => model.Idade, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <br />
+                    <div class="control-group">
+                        <label style="font-size:155%;">@Html.LabelFor(model => model.Sexo, htmlAttributes: new { @class = "control-label" }):</label>
+                    </div>
+                    <div class="control-group">
+                        <div class="floating-label-form-group controls mb-0 pb-2">
+                            @Html.EditorFor(model => model.Sexo, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite o Sexo" } })
+                            @Html.ValidationMessageFor(model => model.Sexo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <br />
+                    <div class="control-group">
+                        <label style="font-size:155%;">@Html.LabelFor(model => model.Telefone, htmlAttributes: new { @class = "control-label" }):</label>
+                    </div>
+                    <div class="control-group">
+                        <div class="floating-label-form-group controls mb-0 pb-2">
+                            @Html.EditorFor(model => model.Telefone, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite o Telefone", @id = "TEL" } })
+                            @Html.ValidationMessageFor(model => model.Telefone, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <br />
+                    <div class="control-group">
+                        <label style="font-size:155%;">@Html.LabelFor(model => model.Cpf, htmlAttributes: new { @class = "control-label" }):</label>
+                    </div>
+                    <div class="control-group">
+                        <div class="floating-label-form-group controls mb-0 pb-2">
+                            @Html.EditorFor(model => model.Cpf, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite o Cpf", @id = "CPF" } })
+                            @Html.ValidationMessageFor(model => model.Cpf, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <input type="submit" value="Alterar" class="btn btn-primary" />
+                        <button class="btn btn-dark" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

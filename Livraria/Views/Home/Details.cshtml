@@ -1,0 +1,38 @@
+﻿@model Livraria.Models.Cliente
+
+<div class="modal-dialog" style="z-index: 1100;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Detalhes do Cliente</h3>
+        </div>
+        <div class="modal-body">
+            <table style="font-size:130%;">
+                <tr>
+                    <td><b>@Html.DisplayNameFor(model => model.Nome): </b></td>
+                    <td>@Html.DisplayFor(model => model.Nome)</td>
+                </tr>
+                <tr>
+                    <td><b>@Html.DisplayNameFor(model => model.Idade): </b></td>
+                    <td>@Html.DisplayFor(model => model.Idade)</td>
+                </tr>
+                <tr>
+                    <td><b>@Html.DisplayNameFor(model => model.Sexo): </b></td>
+                    <td>@Html.DisplayFor(model => model.Sexo)</td>
+                </tr>
+                <tr>
+                    <td><b>@Html.DisplayNameFor(model => model.Telefone): </b></td>
+                    <td>@Html.DisplayFor(model => model.Telefone)</td>
+                </tr>
+                <tr>
+                    <td><b>@Html.DisplayNameFor(model => model.Cpf): </b></td>
+                    <td>@Html.DisplayFor(model => model.Cpf)</td>
+                </tr>
+            </table>
+
+            <br />
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>

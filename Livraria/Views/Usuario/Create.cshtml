@@ -1,0 +1,62 @@
+﻿@model Livraria.Models.Usuario
+
+<div class="modal-dialog" style="z-index: 1100;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Inserir Usuário</h3>
+        </div>
+        <div class="modal-body">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="control-group">
+                        <label style="font-size:155%;">@Html.LabelFor(model => model.Login, htmlAttributes: new { @class = "control-label " }):</label>
+                    </div>
+                    <div class="control-group">
+                        <div class="floating-label-form-group controls mb-0 pb-2">
+                            @Html.EditorFor(model => model.Login, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite o Login" } })
+                            @Html.ValidationMessageFor(model => model.Login, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <br />
+                    <div class="control-group">
+                        <label style="font-size:155%;">@Html.LabelFor(model => model.Senha, htmlAttributes: new { @class = "control-label" }):</label>
+                    </div>
+                    <div class="control-group">
+                        <div class="floating-label-form-group controls mb-0 pb-2">
+                            @Html.EditorFor(model => model.Senha, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite a Senha" } })
+                            @Html.ValidationMessageFor(model => model.Senha, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <br />
+                    <div class="control-group">
+                        <label style="font-size:155%;">@Html.LabelFor(model => model.Privilegio, htmlAttributes: new { @class = "control-label" }):</label>
+                    </div>
+                    <div class="control-group">
+                        <div class="floating-label-form-group controls mb-0 pb-2">
+                            @Html.EditorFor(model => model.Privilegio, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite o Privilegio" } })
+                            @Html.ValidationMessageFor(model => model.Privilegio, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <br />
+                    <div class="modal-footer">
+                        <input type="submit" value="Inserir" class="btn btn-primary" />
+                        <button class="btn btn-dark" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

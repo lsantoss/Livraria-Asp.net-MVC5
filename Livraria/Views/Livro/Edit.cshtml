@@ -1,0 +1,98 @@
+﻿@model Livraria.Models.Livro
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var $seuCampoISBN = $("#ISBN");
+        $seuCampoISBN.mask('000-00-0000-000-0', { reverse: true });
+    });
+</script>
+
+
+<div class="modal-dialog modal-lg" style="z-index: 1100;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Editar Livro</h3>
+        </div>
+        <div class="modal-body">
+            @using (Html.BeginForm("Edit", "Livro", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Id)
+
+
+                    <div class="control-group">
+                        <label style="font-size:155%;">@Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label" }):</label>
+                    </div>
+                    <div class="control-group">
+                        <div class="floating-label-form-group controls mb-0 pb-2">
+                            @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite o Nome" } })
+                            @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <br />
+                    <div class="control-group">
+                        <label style="font-size:155%;">@Html.LabelFor(model => model.Autor, htmlAttributes: new { @class = "control-label" }):</label>
+                    </div>
+                    <div class="control-group">
+                        <div class="floating-label-form-group controls mb-0 pb-2">
+                            @Html.EditorFor(model => model.Autor, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite o Autor" } })
+                            @Html.ValidationMessageFor(model => model.Autor, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <br />
+                    <div class="control-group">
+                        <label style="font-size:155%;">@Html.LabelFor(model => model.Edicao, htmlAttributes: new { @class = "control-label" }):</label>
+                    </div>
+                    <div class="control-group">
+                        <div class="floating-label-form-group controls mb-0 pb-2">
+                            @Html.EditorFor(model => model.Edicao, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite a Edição" } })
+                            @Html.ValidationMessageFor(model => model.Edicao, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <br />
+                    <div class="control-group">
+                        <label style="font-size:155%;">@Html.LabelFor(model => model.Inbs, htmlAttributes: new { @class = "control-label " }):</label>
+                    </div>
+                    <div class="control-group">
+                        <div class="floating-label-form-group controls mb-0 pb-2">
+                            @Html.EditorFor(model => model.Inbs, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite o Isbn", @id = "ISBN" } })
+                            @Html.ValidationMessageFor(model => model.Inbs, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <br />
+                    <div class="control-group">
+                        <label class="control-label" style="font-size:155%;">Capa do Livro:</label><br />
+                    </div>
+                    <div class="control-group">
+                        <div>
+                            <br />
+                            <input type="file" id="arquivo" name="arquivo" class="form-control-file"/ >
+                        </div>
+                    </div>
+
+                    <br />
+                    <div class="control-group">
+                        <div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <input type="submit" value="Alterar" class="btn btn-primary" />
+                    <button class="btn btn-dark" data-dismiss="modal">Fechar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

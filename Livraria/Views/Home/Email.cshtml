@@ -1,0 +1,51 @@
+﻿@model Livraria.Models.Email
+
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+	<div class="form-horizontal">
+		<h2>Enviar Email</h2>
+		<h5>Nos envie seus pedidos, sugestões e reclamações</h5>
+		<hr />
+		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+		<br />
+		<div class="control-group">
+			<label style="font-size:155%;">Título:</label>
+		</div>
+		<div class="control-group">
+			<div class="floating-label-form-group controls mb-0 pb-2">
+				@Html.EditorFor(model => model.Subject, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite o Título do Email" } })
+				@Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<br />
+		<div class="control-group">
+			<label style="font-size:155%;">Mensagem:</label>
+		</div>
+		<div class="control-group">
+			<div class="floating-label-form-group controls mb-0 pb-2">
+				@Html.EditorFor(model => model.Body, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite a sua Mensagem do Email" } })
+				@Html.ValidationMessageFor(model => model.Body, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<br />
+		<div class="control-group">
+            <div>
+                <input type="submit" value="Enviar Email" class="btn btn-primary" />
+            </div>
+		</div>
+	</div>
+}
+
+<div>
+	<br />
+	@Html.ActionLink("Voltar", "Index", "Livro")
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

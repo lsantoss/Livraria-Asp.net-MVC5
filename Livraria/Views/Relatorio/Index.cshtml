@@ -1,0 +1,58 @@
+﻿
+<h2>Relatórios Disponíveis</h2>
+
+<br/>
+
+<table style="font-size:125%;">
+	<tr>
+		<td align="center" colspan="2" style="padding-bottom:2%; font-size:120%;"><b>Relatórios de livros</b></td>
+	</tr>
+	<tr>
+		<td>Relatório de todos os livros: </td>
+		<td>@Html.ActionLink("Clique aqui para gerar o relatório", "TodosLivros", null, htmlAttributes: new { target = "_blank" })</td>
+	</tr>
+	<tr>
+		<td>Relatório de livros disponíveis: </td>
+		<td>@Html.ActionLink("Clique aqui para gerar o relatório", "DisponiveisLivros", null, htmlAttributes: new { target = "_blank" })</td>
+	</tr>
+	<tr>
+		<td>Relatório de livros alugados: </td>
+		<td>@Html.ActionLink("Clique aqui para gerar o relatório", "AlugadosLivros", null, htmlAttributes: new { target = "_blank" })</td>
+	</tr>
+	<tr>
+		<td>Relatório de quantidade de vezes alugado: </td>
+		<td>@Html.ActionLink("Clique aqui para gerar o relatório", "QuantidadeVezesAlugado", null, htmlAttributes: new { target = "_blank" })</td>
+	</tr>
+	<tr>
+		<td>Relatório dos top 5 mais alugados: </td>
+		<td>@Html.ActionLink("Clique aqui para gerar o relatório", "Top5MaisAlugados", null, htmlAttributes: new { target = "_blank" })</td>
+	</tr>
+
+	<tr>
+		<td align="center" colspan="2" style="padding-top:4%; padding-bottom:2%; font-size:120%;"><b>Relatórios de cliente</b></td>
+	</tr>
+	<tr>
+		<td>Relatório de todos clientes: </td>
+		<td>@Html.ActionLink("Clique aqui para gerar o relatório", "TodosClientes", null, htmlAttributes: new { target = "_blank" })</td>
+	</tr>
+
+	<tr>
+		<td align="center" colspan="2" style="padding-top:4%; padding-bottom:2%; font-size:120%;"><b>Relatórios de locações</b></td>
+	</tr>
+	<tr>
+		<td>Relatório de todas as locações: </td>
+		<td>@Html.ActionLink("Clique aqui para gerar o relatório", "TodasLocacoes", null, htmlAttributes: new { target = "_blank" })</td>
+	</tr>
+	<tr>
+		<td>Relatório de todas as locações em aberto: </td>
+		<td>@Html.ActionLink("Clique aqui para gerar o relatório", "AbertoLocacoes", null, htmlAttributes: new { target = "_blank" })</td>
+	</tr>
+	<tr>
+		<td>Relatório de todas as locações finalizadas: </td>
+		<td>@Html.ActionLink("Clique aqui para gerar o relatório", "FinalizadaLocacoes", null, htmlAttributes: new { target = "_blank" })</td>
+	</tr>
+	<tr>
+		<td>Relatório dos lucros gerados por locações finalizadas: </td>
+		<td>@Html.ActionLink("Clique aqui para gerar o relatório", "Lucros", null, htmlAttributes: new { target = "_blank" })</td>
+	</tr>
+</table>

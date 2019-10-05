@@ -1,0 +1,56 @@
+﻿@model Livraria.Models.Locacao
+
+@{
+    ViewBag.Title = "Delete";
+    var dataE = ViewBag.DataE;
+    DateTime dataInv = Convert.ToDateTime("01/01/0001 00:00:00");
+    int status = DateTime.Compare(dataE, dataInv);
+}
+
+<div class="modal-dialog" style="z-index: 1100;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Apagar Locação</h3>
+        </div>
+        <div class="modal-body">
+            <table style="font-size:130%;">
+                <tr>
+                    <td><b>@Html.DisplayNameFor(model => model.NomeCliente):</b> </td>
+                    <td>@Html.DisplayFor(model => model.NomeCliente)</td>
+                </tr>
+                <tr>
+                    <td><b>@Html.DisplayNameFor(model => model.NomeLivro): </b></td>
+                    <td>@Html.DisplayFor(model => model.NomeLivro)</td>
+                </tr>
+                <tr>
+                    <td><b>@Html.DisplayNameFor(model => model.Data):</b> </td>
+                    <td>@Html.DisplayFor(model => model.Data)</td>
+                </tr>
+                @if (Convert.ToBoolean(status))
+                {
+                    <tr>
+                        <td><b>@Html.DisplayNameFor(model => model.Entrega):</b> </td>
+                        <td>@Html.DisplayFor(model => model.Entrega)</td>
+                    </tr>
+                }
+                <tr>
+                    <td><b>@Html.DisplayNameFor(model => model.Preco):</b> </td>
+                    <td>R$ @ViewBag.Preco</td>
+                </tr>
+            </table>
+
+            <br />
+            <div class="modal-footer">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-actions no-color">
+                        <input type="submit" value="Apagar" class="btn btn-danger" />
+                        <button type="button" class="btn btn-dark" data-dismiss="modal">Fechar</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

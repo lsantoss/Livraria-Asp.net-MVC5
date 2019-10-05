@@ -1,0 +1,42 @@
+﻿@model Livraria.Models.Usuario
+
+<div class="modal-dialog" style="z-index: 1100;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Apagar Usuário</h3>
+        </div>
+        <div class="modal-body">
+            <table style="font-size:130%;">
+                <tr>
+                    <td><b>@Html.DisplayNameFor(model => model.Login):</b> </td>
+                    <td>@Html.DisplayFor(model => model.Login)</td>
+                </tr>
+                <tr>
+                    <td><b>@Html.DisplayNameFor(model => model.Senha): </b></td>
+                    <td>@Html.DisplayFor(model => model.Senha)</td>
+                </tr>
+                <tr>
+                    <td><b>@Html.DisplayNameFor(model => model.Privilegio):</b> </td>
+                    <td>@Html.DisplayFor(model => model.Privilegio)</td>
+                </tr>
+                <tr>
+                    <td><b>@Html.DisplayNameFor(model => model.Validade):</b> </td>
+                    <td>@Html.DisplayFor(model => model.Validade)</td>
+                </tr>
+            </table>
+
+            <br />
+            <div class="modal-footer">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-actions no-color">
+                        <input type="submit" value="Apagar" class="btn btn-danger" />
+                        <button type="button" class="btn btn-dark" data-dismiss="modal">Fechar</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

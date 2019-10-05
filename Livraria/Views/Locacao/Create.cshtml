@@ -1,0 +1,73 @@
+﻿@model Livraria.Models.Locacao
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var $seuCampoPRECO = $("#PRECO");
+        $seuCampoPRECO.mask('0000000000,00', { reverse: true });
+        var preco = parseFloat($seuCampoPRECO);
+        document.getElementById("#PRECO").innerHTML = preco;
+    });
+</script>
+
+<h2>Inserir nova Locação</h2>
+<div class="modal-dialog" style="z-index: 1100;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Inserir Locação</h3>
+        </div>
+        <div class="modal-body">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="control-group">
+                        <label class="control-label " style="font-size:155%;">Cliente:</label>
+                        @Html.DropDownList("Idcliente", ViewBag.Clientes as SelectList, htmlAttributes: new { @class = "form-control" })
+                    </div>
+
+                    <br />
+                    <div class="control-group">
+                        <label class="control-label " style="font-size:155%;">Livro:</label>
+                        @Html.DropDownList("Idlivro", ViewBag.Livros as SelectList, htmlAttributes: new { @class = "form-control" })
+                    </div>
+
+
+                    <br />
+                    <div class="control-group">
+                        <label style="font-size:155%;">@Html.LabelFor(model => model.Preco, htmlAttributes: new { @class = "control-label" }):</label>
+                    </div>
+                    <div class="control-group">
+                        <div class="floating-label-form-group controls mb-0 pb-2">
+                            @Html.EditorFor(model => model.Preco, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite o Preço", @id = "PRECO", @required = "required" } })
+                            @Html.ValidationMessageFor(model => model.Preco, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <br />
+                    <div class="control-group">
+                        <label style="font-size:155%;">@Html.LabelFor(model => model.Data, htmlAttributes: new { @class = "control-label" }):</label>
+                    </div>
+                    <div class="control-group">
+                        <div class="floating-label-form-group controls mb-0 pb-2">
+                            <input type="date" class="form-control" name="CPData" placeholder="Digite a Data" required />
+                            @Html.ValidationMessageFor(model => model.Data, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <br />
+                    <div class="modal-footer">
+                        <input type="submit" value="Inserir" class="btn btn-primary" />
+                        <button class="btn btn-dark" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

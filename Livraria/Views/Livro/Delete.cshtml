@@ -1,0 +1,35 @@
+﻿@model Livraria.Models.Livro
+
+<div class="modal-dialog modal-lg" style="z-index: 1100;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Apagar Livro</h3>
+        </div>
+
+        <div class="modal-body">
+            <div class="col-md-5 text-center">
+                <img src="@Url.Content("~/Content/Imagens/" + @Html.DisplayFor(model => model.Imagem))" height="250" width="180"/>
+            </div>
+
+            <div class="col-md-7" style="font-size:150%;">
+                <b>@Html.DisplayNameFor(model => model.Nome):</b> @Html.DisplayFor(model => model.Nome)<br />
+                <b>@Html.DisplayNameFor(model => model.Autor):</b> @Html.DisplayFor(model => model.Autor)<br />
+                <b>@Html.DisplayNameFor(model => model.Edicao):</b> @Html.DisplayFor(model => model.Edicao)<br />
+                <b>@Html.DisplayNameFor(model => model.Inbs):</b> @Html.DisplayFor(model => model.Inbs)<br />
+            </div>
+            <br />
+        </div>
+
+        <div class="modal-footer">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Apagar" class="btn btn-danger" />
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Fechar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

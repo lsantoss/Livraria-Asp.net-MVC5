@@ -1,0 +1,89 @@
+﻿@model Livraria.Models.Locacao
+
+@{
+    ViewBag.Title = "Details";
+    var dataE = ViewBag.DataE;
+    DateTime dataInv = Convert.ToDateTime("01/01/0001 00:00:00");
+    int status = DateTime.Compare(dataE, dataInv);
+}
+
+<script>
+    $(function () {
+        $(".details").click(function () {
+            var id = $(this).attr("data-id");
+            $("#modal").load("Details?id=" + id, function () {
+                $("#modal").modal();
+            })
+        });
+        $(".finalizar").click(function () {
+            var id = $(this).attr("data-id");
+            $("#modal").load("Finalizar?id=" + id, function () {
+                $("#modal").modal();
+            })
+        });
+        $(".delete").click(function () {
+            var id = $(this).attr("data-id");
+            $("#modal").load("Delete?id=" + id, function () {
+                $("#modal").modal();
+            })
+        });
+        $(".create").click(function () {
+            $("#modal").load("Create", function () {
+                $("#modal").modal();
+            })
+        });
+    })
+</script>
+
+
+<div class="modal-dialog" style="z-index: 1100;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Detalhes da Locação</h3>
+        </div>
+        <div class="modal-body">
+            <div>
+                <table style="font-size:130%;">
+                    <tr>
+                        <td><b>@Html.DisplayNameFor(model => model.NomeCliente):</b> </td>
+                        <td>@Html.DisplayFor(model => model.NomeCliente)</td>
+                    </tr>
+
+                    <tr>
+                        <td><b>@Html.DisplayNameFor(model => model.NomeLivro): </b></td>
+                        <td>@Html.DisplayFor(model => model.NomeLivro)</td>
+                    </tr>
+
+                    <tr>
+                        <td><b>@Html.DisplayNameFor(model => model.Data):</b> </td>
+                        <td>@Html.DisplayFor(model => model.Data)</td>
+                    </tr>
+
+                    @if (Convert.ToBoolean(status))
+                    {
+                        <tr>
+                            <td><b>@Html.DisplayNameFor(model => model.Entrega):</b> </td>
+                            <td>@Html.DisplayFor(model => model.Entrega)</td>
+                        </tr>
+                    }
+
+                    <tr>
+                        <td><b>@Html.DisplayNameFor(model => model.Preco):</b> </td>
+                        <td>R$ @ViewBag.Preco</td>
+                    </tr>
+                </table>
+            </div>
+
+            <br />
+            <div class="modal-footer">
+                @if (!Convert.ToBoolean(status))
+                {
+                    <button class="btn btn-success finalizar" data-id="@Model.Id">Finalizar</button>
+                }
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal" class="modal fade" role="dialog"></div>
