@@ -14,9 +14,9 @@ namespace Livraria.Controllers
     [HandleError(View = "Error", ExceptionType = typeof(InvalidOperationException))]
     public class RelatorioController : Controller
     {
-        private LocacaoDAO locacaoDao = new LocacaoDAO();
-        private LivroDAO livroDao = new LivroDAO();
-        private ClienteDAO clienteDao = new ClienteDAO();
+        private readonly LocacaoDAO _locacaoDao = new LocacaoDAO();
+        private readonly LivroDAO _livroDao = new LivroDAO();
+        private readonly ClienteDAO _clienteDao = new ClienteDAO();
 
         // GET: Relatorio
         public ActionResult Index()
@@ -58,7 +58,7 @@ namespace Livraria.Controllers
                 "</table>" +
                 "<br/>" +
                 "<div style='margin-left:5%;>" +
-                    "<h2>Lucros gerados: R$ " + @String.Format("{0:n}", locacaoDao.Lucros()) + "</h2>" +
+                    "<h2>Lucros gerados: R$ " + @String.Format("{0:n}", _locacaoDao.Lucros()) + "</h2>" +
                 "</div>" +
                 "<p align='center'>Livraria Otacom - " + DateTime.Now.ToString() + "</p>";
 
@@ -70,7 +70,7 @@ namespace Livraria.Controllers
         {
             string titulo = "Relatório de todos os livros";
 
-            var livros = livroDao.RetornarTodos();
+            var livros = _livroDao.RetornarTodos();
 
             string cabecalho =
                 "<table class='table' cellspacing='5' width='100%'>" +
@@ -117,7 +117,7 @@ namespace Livraria.Controllers
         {
             string titulo = "Relatório de livros disponíveis";
 
-            var livros = livroDao.RetornarNaoAlugados();
+            var livros = _livroDao.RetornarNaoAlugados();
 
             string cabecalho = 
                 "<table class='table' cellspacing='5' width='100%'>" +
@@ -164,7 +164,7 @@ namespace Livraria.Controllers
         {
             string titulo = "Relatório de livros alugados";
 
-            var livros = livroDao.RetornarAlugados();
+            var livros = _livroDao.RetornarAlugados();
 
             string cabecalho =
                 "<table class='table' cellspacing='5' width='100%'>" +
@@ -211,7 +211,7 @@ namespace Livraria.Controllers
         {
             string titulo = "Relátorio da quantidade de vezes alugado";
 
-            var livros = livroDao.QuantidadeVezesAlugado();
+            var livros = _livroDao.QuantidadeVezesAlugado();
 
             string cabecalho =
                 "<table class='table' cellspacing='5' width='100%'>" +
@@ -260,7 +260,7 @@ namespace Livraria.Controllers
         {
             string titulo = "Relatório dos top 5 mais alugados";
 
-            var livros = livroDao.Top5MaisAlugados();
+            var livros = _livroDao.Top5MaisAlugados();
 
             string cabecalho =
                 "<table class='table' cellspacing='5' width='100%'>" +
@@ -309,7 +309,7 @@ namespace Livraria.Controllers
         {
             string titulo = "Relatório de todos clientes";
 
-            var clientes = clienteDao.RetornarTodos();
+            var clientes = _clienteDao.RetornarTodos();
 
             string cabecalho =
                 "<table class='table' cellspacing='5' width='100%'>" +
@@ -356,7 +356,7 @@ namespace Livraria.Controllers
         {
             string titulo = "Relatório de todas locações";
 
-            var locacoes = locacaoDao.RetornarTodos();
+            var locacoes = _locacaoDao.RetornarTodos();
 
             string cabecalho =
                 "<table class='table' cellspacing='5' width='100%'>" +
@@ -410,7 +410,7 @@ namespace Livraria.Controllers
         {
             string titulo = "Relatório de locações em aberto";
 
-            var locacoes = locacaoDao.ListaAlugados();
+            var locacoes = _locacaoDao.ListaAlugados();
 
             string cabecalho =
                 "<table class='table' cellspacing='5' width='100%'>" +
@@ -464,7 +464,7 @@ namespace Livraria.Controllers
         {
             string titulo = "Relatório de locações finalizadas";
 
-            var locacoes = locacaoDao.ListaEntregues();
+            var locacoes = _locacaoDao.ListaEntregues();
 
             string cabecalho =
                 "<table class='table' cellspacing='5' width='100%'>" +

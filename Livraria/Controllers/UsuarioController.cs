@@ -9,13 +9,13 @@ namespace Livraria.Controllers
     [HandleError(View = "Error", ExceptionType = typeof(InvalidOperationException))]
     public class UsuarioController : Controller
     {
-        private UsuarioDAO dao = new UsuarioDAO();
+        private readonly UsuarioDAO _dao = new UsuarioDAO();
 
         // GET: Usuario
         [Autenticacao]
         public ActionResult Index()
         {
-            return View(dao.RetornarTodos());
+            return View(_dao.RetornarTodos());
         }
 
         // GET: Usuario/BuscarPorNome
@@ -23,14 +23,14 @@ namespace Livraria.Controllers
         public ActionResult BuscarPorNome()
         {
             string busca = Request.Form["CPBusca"].ToString();
-            return View("Index", dao.RetornarPorNome(busca));
+            return View("Index", _dao.RetornarPorNome(busca));
         }
 
         // GET: Usuario/Details/5
         [Autenticacao]
         public PartialViewResult Details(int id)
         {
-            return PartialView(dao.RetornarPorId(id));
+            return PartialView(_dao.RetornarPorId(id));
         }
 
         // GET: Usuario/Create
@@ -45,9 +45,10 @@ namespace Livraria.Controllers
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
-            Usuario objeto = new Usuario();
-            UpdateModel(objeto);
-            dao.Inserir(objeto);
+            Usuario usuario = new Usuario();
+            UpdateModel(usuario);
+            _dao.Inserir(usuario);
+
             TempData["success"] = "Usuário inserido com sucesso!";
             return RedirectToAction("Index");
         }
@@ -56,7 +57,7 @@ namespace Livraria.Controllers
         [Autenticacao]
         public PartialViewResult Edit(int id)
         {
-            return PartialView(dao.RetornarPorId(id));
+            return PartialView(_dao.RetornarPorId(id));
         }
 
         // POST: Usuario/Edit/5
@@ -64,9 +65,10 @@ namespace Livraria.Controllers
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
-            Usuario objeto = new Usuario();
-            UpdateModel(objeto);
-            dao.Alterar(objeto);
+            Usuario usuario = new Usuario();
+            UpdateModel(usuario);
+            _dao.Alterar(usuario);
+
             TempData["success"] = "Usuário editado com sucesso!";
             return RedirectToAction("Index");
         }
@@ -75,7 +77,7 @@ namespace Livraria.Controllers
         [Autenticacao]
         public PartialViewResult Delete(int id)
         {
-            return PartialView(dao.RetornarPorId(id));
+            return PartialView(_dao.RetornarPorId(id));
         }
 
         // POST: Usuario/Delete/5
@@ -83,7 +85,8 @@ namespace Livraria.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            dao.Deletar(id);
+            _dao.Deletar(id);
+
             TempData["success"] = "Usuário apagado com sucesso!";
             return RedirectToAction("Index");
         }
@@ -105,10 +108,10 @@ namespace Livraria.Controllers
         [HttpPost]
         public ActionResult Logar(FormCollection collection)
         {
-            Usuario objeto = new Usuario();
-            UpdateModel(objeto);
+            Usuario login = new Usuario();
+            UpdateModel(login);
 
-            Usuario usuario = dao.Logar(objeto);
+            Usuario usuario = _dao.Logar(login);
 
             if (usuario != null)
             {
@@ -118,7 +121,7 @@ namespace Livraria.Controllers
                 DateTime validade = DateTime.Now;
                 validade.AddHours(2);
                 usuario.Validade = validade;
-                dao.Alterar(usuario);
+                _dao.Alterar(usuario);
 
                 TempData["info"] = "Bem-vindo "+ usuario.Login + "!";
                 return RedirectToAction("Index", "Livro");

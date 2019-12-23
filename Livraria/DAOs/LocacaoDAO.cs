@@ -3,22 +3,29 @@ using Livraria.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Text;
 
 namespace Livraria.DAOs
 {
     public class LocacaoDAO
     {
+        private StringBuilder Sql = new StringBuilder();
+
         public IEnumerable<Locacao> RetornarTodos()
         {
-            using (var conexao = new SqlConnection(connStr))
+            using (SqlConnection conexao = new SqlConnection(stringConexao))
             {
                 try
                 {
-                    var result = conexao.Query<Locacao>(
-                        "select TBCliente.nome as NomeCliente, TBLivro.nome as NomeLivro, TBLocacao.* " +
-                        "from TBLocacao inner join TBCliente on TBLocacao.idcliente = TBCliente.id " +
-                        "inner join TBLivro on TBLocacao.idlivro = TBLivro.id");
+                    Sql.Clear();
+                    Sql.Append("select TBCliente.nome as NomeCliente, TBLivro.nome as NomeLivro, TBLocacao.* ");
+                    Sql.Append("from TBLocacao inner join TBCliente on TBLocacao.idcliente = TBCliente.id ");
+                    Sql.Append("inner join TBLivro on TBLocacao.idlivro = TBLivro.id");
+
+                    IEnumerable<Locacao> result = conexao.Query<Locacao>(Sql.ToString());
+
                     conexao.Close();
+
                     return result;
                 }
                 catch (Exception e)
@@ -30,16 +37,20 @@ namespace Livraria.DAOs
 
         public IEnumerable<Locacao> RetornarPorNome(string busca)
         {
-            using (var conexao = new SqlConnection(connStr))
+            using (SqlConnection conexao = new SqlConnection(stringConexao))
             {
                 try
                 {
-                    var result = conexao.Query<Locacao>(
-                        "select TBCliente.nome as NomeCliente, TBLivro.nome as NomeLivro, TBLocacao.* " +
-                        "from TBLocacao inner join TBCliente on TBLocacao.idcliente = TBCliente.id " +
-                        "inner join TBLivro on TBLocacao.idlivro = TBLivro.id " +
-                        "where TBCliente.nome like '%"+ busca + "%' or TBLivro.nome like '%"+ busca + "%'");
+                    Sql.Clear();
+                    Sql.Append("select TBCliente.nome as NomeCliente, TBLivro.nome as NomeLivro, TBLocacao.* ");
+                    Sql.Append("from TBLocacao inner join TBCliente on TBLocacao.idcliente = TBCliente.id ");
+                    Sql.Append("inner join TBLivro on TBLocacao.idlivro = TBLivro.id ");
+                    Sql.Append("where TBCliente.nome like '%" + busca + "%' or TBLivro.nome like '%" + busca + "%'");
+
+                    IEnumerable<Locacao> result = conexao.Query<Locacao>(Sql.ToString());
+
                     conexao.Close();
+
                     return result;
                 }
                 catch (Exception e)
@@ -51,16 +62,20 @@ namespace Livraria.DAOs
 
         public IEnumerable<Locacao> RetornarPorNomeAlugados(string busca)
         {
-            using (var conexao = new SqlConnection(connStr))
+            using (SqlConnection conexao = new SqlConnection(stringConexao))
             {
                 try
                 {
-                    var result = conexao.Query<Locacao>(
-                        "select TBCliente.nome as NomeCliente, TBLivro.nome as NomeLivro, TBLocacao.* " +
-                        "from TBLocacao inner join TBCliente on TBLocacao.idcliente = TBCliente.id " +
-                        "inner join TBLivro on TBLocacao.idlivro = TBLivro.id " +
-                        "where TBLocacao.entrega is null and (TBCliente.nome like '%" + busca + "%' or TBLivro.nome like '%" + busca + "%')");
+                    Sql.Clear();
+                    Sql.Append("select TBCliente.nome as NomeCliente, TBLivro.nome as NomeLivro, TBLocacao.* ");
+                    Sql.Append("from TBLocacao inner join TBCliente on TBLocacao.idcliente = TBCliente.id ");
+                    Sql.Append("inner join TBLivro on TBLocacao.idlivro = TBLivro.id ");
+                    Sql.Append("where TBLocacao.entrega is null and (TBCliente.nome like '%" + busca + "%' or TBLivro.nome like '%" + busca + "%')");
+
+                    IEnumerable<Locacao> result = conexao.Query<Locacao>(Sql.ToString());
+
                     conexao.Close();
+
                     return result;
                 }
                 catch (Exception e)
@@ -72,16 +87,20 @@ namespace Livraria.DAOs
 
         public IEnumerable<Locacao> RetornarPorNomeEntregues(string busca)
         {
-            using (var conexao = new SqlConnection(connStr))
+            using (SqlConnection conexao = new SqlConnection(stringConexao))
             {
                 try
                 {
-                    var result = conexao.Query<Locacao>(
-                        "select TBCliente.nome as NomeCliente, TBLivro.nome as NomeLivro, TBLocacao.* " +
-                        "from TBLocacao inner join TBCliente on TBLocacao.idcliente = TBCliente.id " +
-                        "inner join TBLivro on TBLocacao.idlivro = TBLivro.id " +
-                        "where TBLocacao.entrega is not null and (TBCliente.nome like '%" + busca + "%' or TBLivro.nome like '%" + busca + "%')");
+                    Sql.Clear();
+                    Sql.Append("select TBCliente.nome as NomeCliente, TBLivro.nome as NomeLivro, TBLocacao.* ");
+                    Sql.Append("from TBLocacao inner join TBCliente on TBLocacao.idcliente = TBCliente.id ");
+                    Sql.Append("inner join TBLivro on TBLocacao.idlivro = TBLivro.id ");
+                    Sql.Append("where TBLocacao.entrega is not null and (TBCliente.nome like '%" + busca + "%' or TBLivro.nome like '%" + busca + "%')");
+
+                    IEnumerable<Locacao> result = conexao.Query<Locacao>(Sql.ToString());
+
                     conexao.Close();
+
                     return result;
                 }
                 catch (Exception e)
@@ -93,16 +112,20 @@ namespace Livraria.DAOs
 
         public IEnumerable<Locacao> ListaAlugados()
         {
-            using (var conexao = new SqlConnection(connStr))
+            using (SqlConnection conexao = new SqlConnection(stringConexao))
             {
                 try
                 {
-                    var result = conexao.Query<Locacao>(
-                        "select TBCliente.nome as NomeCliente, TBLivro.nome as NomeLivro, TBLocacao.* " +
-                        "from TBLocacao inner join TBCliente on TBLocacao.idcliente = TBCliente.id " +
-                        "inner join TBLivro on TBLocacao.idlivro = TBLivro.id " +
-                        "where TBLocacao.entrega is null");
+                    Sql.Clear();
+                    Sql.Append("select TBCliente.nome as NomeCliente, TBLivro.nome as NomeLivro, TBLocacao.* ");
+                    Sql.Append("from TBLocacao inner join TBCliente on TBLocacao.idcliente = TBCliente.id ");
+                    Sql.Append("inner join TBLivro on TBLocacao.idlivro = TBLivro.id ");
+                    Sql.Append("where TBLocacao.entrega is null");
+
+                    IEnumerable<Locacao> result = conexao.Query<Locacao>(Sql.ToString());
+
                     conexao.Close();
+
                     return result;
                 }
                 catch (Exception e)
@@ -114,16 +137,20 @@ namespace Livraria.DAOs
 
         public IEnumerable<Locacao> ListaEntregues()
         {
-            using (var conexao = new SqlConnection(connStr))
+            using (SqlConnection conexao = new SqlConnection(stringConexao))
             {
                 try
                 {
-                    var result = conexao.Query<Locacao>(
-                        "select TBCliente.nome as NomeCliente, TBLivro.nome as NomeLivro, TBLocacao.* " +
-                        "from TBLocacao inner join TBCliente on TBLocacao.idcliente = TBCliente.id " +
-                        "inner join TBLivro on TBLocacao.idlivro = TBLivro.id " +
-                        "where TBLocacao.entrega is not null");
+                    Sql.Clear();
+                    Sql.Append("select TBCliente.nome as NomeCliente, TBLivro.nome as NomeLivro, TBLocacao.* ");
+                    Sql.Append("from TBLocacao inner join TBCliente on TBLocacao.idcliente = TBCliente.id ");
+                    Sql.Append("inner join TBLivro on TBLocacao.idlivro = TBLivro.id ");
+                    Sql.Append("where TBLocacao.entrega is not null");
+
+                    IEnumerable<Locacao> result = conexao.Query<Locacao>(Sql.ToString());
+
                     conexao.Close();
+
                     return result;
                 }
                 catch (Exception e)
@@ -135,12 +162,17 @@ namespace Livraria.DAOs
 
         public double Lucros()
         {
-            using (var conexao = new SqlConnection(connStr))
+            using (SqlConnection conexao = new SqlConnection(stringConexao))
             {
                 try
                 {
-                    var result = conexao.QuerySingle<double>("SELECT sum(preco) FROM TBLocacao where entrega is not null");
+                    Sql.Clear();
+                    Sql.Append("SELECT sum(preco) FROM TBLocacao where entrega is not null");
+
+                    double result = conexao.QuerySingle<double>(Sql.ToString());
+
                     conexao.Close();
+
                     return result;
                 }
                 catch
@@ -152,16 +184,20 @@ namespace Livraria.DAOs
 
         public Locacao RetornarPorId(int id)
         {
-            using (var conexao = new SqlConnection(connStr))
+            using (SqlConnection conexao = new SqlConnection(stringConexao))
             {
                 try
                 {
-                    var result = conexao.QueryFirst<Locacao>(
-                        "select TBCliente.nome as NomeCliente, TBLivro.nome as NomeLivro, TBLocacao.* " +
-                        "from TBLocacao inner join TBCliente on TBLocacao.idcliente = TBCliente.id " +
-                        "inner join TBLivro on TBLocacao.idlivro = TBLivro.id " +
-                        "where TBLocacao.id=@id", new { Id = id });
+                    Sql.Clear();
+                    Sql.Append("select TBCliente.nome as NomeCliente, TBLivro.nome as NomeLivro, TBLocacao.* ");
+                    Sql.Append("from TBLocacao inner join TBCliente on TBLocacao.idcliente = TBCliente.id ");
+                    Sql.Append("inner join TBLivro on TBLocacao.idlivro = TBLivro.id ");
+                    Sql.Append("where TBLocacao.id=@id");
+
+                    Locacao result = conexao.QueryFirst<Locacao>(Sql.ToString(), new { Id = id });
+
                     conexao.Close();
+
                     return result;
                 }
                 catch (Exception e)
@@ -173,14 +209,19 @@ namespace Livraria.DAOs
 
         public void Inserir(Locacao obj)
         {
-            using (var conexao = new SqlConnection(connStr))
+            using (SqlConnection conexao = new SqlConnection(stringConexao))
             {
                 try
                 {
+                    Sql.Clear();
+                    Sql.Append("insert into TBLocacao (id, idcliente, idlivro, data, entrega, preco) ");
+                    Sql.Append("values (@id, @idcliente, @idlivro, @data, null, @preco)");
+
                     if (obj.Id == 0)
                         obj.Id = RetornarUltimoId() + 1;
 
-                    conexao.Execute("insert into TBLocacao (id, idcliente, idlivro, data, entrega, preco) values (@id, @idcliente, @idlivro, @data, null, @preco)", obj);
+                    conexao.Execute(Sql.ToString(), obj);
+
                     conexao.Close();
                 }
                 catch (Exception e)
@@ -190,29 +231,17 @@ namespace Livraria.DAOs
             }
         }
 
-        public void Deletar(int id)
-        {
-            using (var conexao = new SqlConnection(connStr))
-            {
-                try
-                {
-                    conexao.Execute("delete from TBLocacao where id=@id", new { Id = id });
-                    conexao.Close();
-                }
-                catch (Exception e)
-                {
-                    throw new Exception("Não foi possível apagar a locação!", e);
-                }
-            }
-        }
-
         public void Finalizar(Locacao obj)
         {
-            using (var conexao = new SqlConnection(connStr))
+            using (SqlConnection conexao = new SqlConnection(stringConexao))
             {
                 try
                 {
-                    conexao.Execute("update TBLocacao set entrega=@entrega where id=@id", obj);
+                    Sql.Clear();
+                    Sql.Append("update TBLocacao set entrega=@entrega where id=@id");
+
+                    conexao.Execute(Sql.ToString(), obj);
+
                     conexao.Close();
                 }
                 catch (Exception e)
@@ -222,14 +251,39 @@ namespace Livraria.DAOs
             }
         }
 
-        private int RetornarUltimoId()
+        public void Deletar(int id)
         {
-            using (var conexao = new SqlConnection(connStr))
+            using (SqlConnection conexao = new SqlConnection(stringConexao))
             {
                 try
                 {
-                    var result = conexao.QuerySingle<int>("select max(id) from TBLocacao");
+                    Sql.Clear();
+                    Sql.Append("delete from TBLocacao where id=@id");
+
+                    conexao.Execute(Sql.ToString(), new { Id = id });
+
                     conexao.Close();
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("Não foi possível apagar a locação!", e);
+                }
+            }
+        }
+
+        private int RetornarUltimoId()
+        {
+            using (SqlConnection conexao = new SqlConnection(stringConexao))
+            {
+                try
+                {
+                    Sql.Clear();
+                    Sql.Append("select max(id) from TBLocacao");
+
+                    int result = conexao.QuerySingle<int>(Sql.ToString());
+
+                    conexao.Close();
+
                     return result;
                 }
                 catch
@@ -240,6 +294,6 @@ namespace Livraria.DAOs
             }
         }
 
-        private static readonly string connStr = @"Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=Livraria;Data Source=SANTOS-PC\SQLEXPRESS;";
+        private static readonly string stringConexao = @"Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=Livraria;Data Source=SANTOS-PC\SQLEXPRESS;";
     }
 }

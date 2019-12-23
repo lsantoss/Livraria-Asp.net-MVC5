@@ -11,25 +11,25 @@ namespace Livraria.Controllers
     [HandleError(View = "Error", ExceptionType = typeof(InvalidOperationException))]
     public class HomeController : Controller
     {
-        private ClienteDAO dao = new ClienteDAO();
+        private readonly ClienteDAO _dao = new ClienteDAO();
 
         // GET: Home
         public ActionResult Index()
         {
-            return View(dao.RetornarTodos());
+            return View(_dao.RetornarTodos());
         }
 
         // GET: Home/BuscarPorNome
         public ActionResult BuscarPorNome()
         {
             string busca = Request.Form["CPBusca"].ToString();
-            return View("Index", dao.RetornarPorNome(busca));
+            return View("Index", _dao.RetornarPorNome(busca));
         }
 
         // GET: Home/Details/5
         public PartialViewResult Details(int id)
         {
-            return PartialView(dao.RetornarPorId(id));
+            return PartialView(_dao.RetornarPorId(id));
         }
 
         // GET: Home/Create
@@ -42,9 +42,10 @@ namespace Livraria.Controllers
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
-            Cliente objeto = new Cliente();
-            UpdateModel(objeto);
-            dao.Inserir(objeto);
+            Cliente cliente = new Cliente();
+            UpdateModel(cliente);
+            _dao.Inserir(cliente);
+
             TempData["success"] = "Cliente inserido com sucesso!";
             return RedirectToAction("Index");
         }
@@ -52,16 +53,17 @@ namespace Livraria.Controllers
         // GET: Home/Edit/5
         public PartialViewResult Edit(int id)
         {
-            return PartialView(dao.RetornarPorId(id));
+            return PartialView(_dao.RetornarPorId(id));
         }
 
         // POST: Home/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
-            Cliente objeto = new Cliente();
-            UpdateModel(objeto);
-            dao.Alterar(objeto);
+            Cliente cliente = new Cliente();
+            UpdateModel(cliente);
+            _dao.Alterar(cliente);
+
             TempData["success"] = "Cliente editado com sucesso!";
             return RedirectToAction("Index");
         }
@@ -69,14 +71,15 @@ namespace Livraria.Controllers
         // GET: Home/Delete/5
         public PartialViewResult Delete(int id)
         {
-            return PartialView(dao.RetornarPorId(id));
+            return PartialView(_dao.RetornarPorId(id));
         }
 
         // POST: Home/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            dao.Deletar(id);
+            _dao.Deletar(id);
+
             TempData["success"] = "Cliente apgado com sucesso!";
             return RedirectToAction("Index");
         }
@@ -89,16 +92,16 @@ namespace Livraria.Controllers
         [HttpPost]
         public ActionResult Email(FormCollection collection)
         {
-            Email objeto = new Email();
-            UpdateModel(objeto);
-            objeto.To = "lucas.faria@viannasempre.com.br";
-            objeto.From = "lucas.faria@viannasempre.com.br";
+            Email email = new Email();
+            UpdateModel(email);
+            email.To = "lucas.faria@viannasempre.com.br";
+            email.From = "lucas.faria@viannasempre.com.br";
             
             MailMessage mail = new MailMessage();
-            mail.To.Add(objeto.To);
-            mail.From = new MailAddress(objeto.From);
-            mail.Subject = objeto.Subject;
-            string Body = objeto.Body;
+            mail.To.Add(email.To);
+            mail.From = new MailAddress(email.From);
+            mail.Subject = email.Subject;
+            string Body = email.Body;
             mail.Body = Body;
             mail.IsBodyHtml = true;
             

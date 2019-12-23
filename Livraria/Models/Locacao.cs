@@ -10,9 +10,17 @@ namespace Livraria.Models
         [Display(Name = "Id do Cliente")]
         public long Idcliente { get; set; }
 
-        
+
+        [Display(Name = "Cliente")]
+        public string NomeCliente { get; set; }
+
+
         [Display(Name = "Id do Livro")]
         public long Idlivro { get; set; }
+
+
+        [Display(Name = "Livro")]
+        public string NomeLivro { get; set; }
 
 
         [Required(ErrorMessage = "O campo Data da Locação é obrigatório")]
@@ -26,17 +34,9 @@ namespace Livraria.Models
         [DataType(DataType.Date)]
         public DateTime Entrega { get; set; }
 
+
         [Required(ErrorMessage = "O campo Preço é obrigatório")]
         [Display(Name = "Preço")]
         public double Preco { get; set; }
-
-
-        [Display(Name = "Cliente")]
-        public string NomeCliente { get; set; }
-
-
-        [Display(Name = "Livro")]
-        public string NomeLivro { get; set; }
-
     }
 }

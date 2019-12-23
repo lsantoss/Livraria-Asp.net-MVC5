@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Livraria.Models
 {
     public class Email
     {
         public string From { get; set; }
-        
+
         public string To { get; set; }
 
         [Required(ErrorMessage = "Informe o Título do Email")]

@@ -11,65 +11,65 @@ namespace Livraria.Controllers
     [HandleError(View = "Error", ExceptionType = typeof(InvalidOperationException))]
     public class LocacaoController : Controller
     {
-        private LocacaoDAO dao = new LocacaoDAO();
+        private readonly LocacaoDAO _dao = new LocacaoDAO();
+        private readonly ClienteDAO _cliDAO = new ClienteDAO();
+        private readonly LivroDAO _livroDAO = new LivroDAO();
 
         // GET: Locacao
         public ActionResult Index()
         {
-            return View(dao.RetornarTodos());
+            return View(_dao.RetornarTodos());
         }
 
         // GET: Locacao/BuscarPorNome
         public ActionResult BuscarPorNome()
         {
             string busca = Request.Form["CPBusca"].ToString();
-            return View("Index", dao.RetornarPorNome(busca));
+            return View("Index", _dao.RetornarPorNome(busca));
         }
 
         // GET: Locacao/BuscarPorNomeAlugados
         public ActionResult BuscarPorNomeAlugados()
         {
             string busca = Request.Form["CPBusca"].ToString();
-            return View("ListaAlugados", dao.RetornarPorNomeAlugados(busca));
+            return View("ListaAlugados", _dao.RetornarPorNomeAlugados(busca));
         }
 
         // GET: Locacao/BuscarPorNomeEntregues
         public ActionResult BuscarPorNomeEntregues()
         {
             string busca = Request.Form["CPBusca"].ToString();
-            return View("ListaEntregues", dao.RetornarPorNomeEntregues(busca));
+            return View("ListaEntregues", _dao.RetornarPorNomeEntregues(busca));
         }
 
         // GET: Locacao/ListaAlugados
         public ActionResult ListaAlugados()
         {
-            return View(dao.ListaAlugados());
+            return View(_dao.ListaAlugados());
         }
 
         // GET: Locacao/ListaEntregues
         public ActionResult ListaEntregues()
         {
-            return View(dao.ListaEntregues());
+            return View(_dao.ListaEntregues());
         }
 
         // GET: Locacao/Details/5
         public PartialViewResult Details(int id)
         {
-            Locacao locacao = dao.RetornarPorId(id);
+            Locacao locacao = _dao.RetornarPorId(id);
             ViewBag.DataE = locacao.Entrega;
             ViewBag.Preco = String.Format("{0:n}", locacao.Preco);
-            return PartialView(dao.RetornarPorId(id));
+            return PartialView(_dao.RetornarPorId(id));
         }
 
         // GET: Locacao/Create
         public PartialViewResult Create()
         {
-            ClienteDAO cliDAO = new ClienteDAO();
-            IEnumerable<Cliente> clientes = cliDAO.RetornarTodos();
+            IEnumerable<Cliente> clientes = _cliDAO.RetornarTodos();
             ViewBag.Clientes = new SelectList(clientes,"Id","Nome");
 
-            LivroDAO livroDAO = new LivroDAO();
-            IEnumerable<Livro> livros = livroDAO.RetornarNaoAlugados();
+            IEnumerable<Livro> livros = _livroDAO.RetornarNaoAlugados();
             ViewBag.Livros = new SelectList(livros,"Id", "Nome");
 
             return PartialView();
@@ -79,13 +79,13 @@ namespace Livraria.Controllers
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
-            Locacao objeto = new Locacao();
-            UpdateModel(objeto);
+            Locacao locacao = new Locacao();
+            UpdateModel(locacao);
 
             DateTime dataC = Convert.ToDateTime(Request.Form["CPData"].ToString());
-            objeto.Data = dataC;
+            locacao.Data = dataC;
 
-            dao.Inserir(objeto);
+            _dao.Inserir(locacao);
 
             TempData["success"] = "Locação inserida com sucesso!";
             return RedirectToAction("Index");
@@ -95,17 +95,18 @@ namespace Livraria.Controllers
         // GET: Locacao/Delete/5
         public PartialViewResult Delete(int id)
         {
-            Locacao locacao = dao.RetornarPorId(id);
+            Locacao locacao = _dao.RetornarPorId(id);
             ViewBag.DataE = locacao.Entrega;
             ViewBag.Preco = String.Format("{0:n}", locacao.Preco);
-            return PartialView(dao.RetornarPorId(id));
+            return PartialView(_dao.RetornarPorId(id));
         }
 
         // POST: Locacao/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            dao.Deletar(id);
+            _dao.Deletar(id);
+
             TempData["success"] = "Locação apagada com sucesso!";
             return RedirectToAction("Index");
 
@@ -114,21 +115,21 @@ namespace Livraria.Controllers
         // GET: Locacao/Finalizar/5
         public PartialViewResult Finalizar(int id)
         {
-            return PartialView(dao.RetornarPorId(id));
+            return PartialView(_dao.RetornarPorId(id));
         }
 
         // POST: Locacao/Edit/5
         [HttpPost]
         public ActionResult Finalizar(int id, FormCollection collection)
         {
-            Locacao objeto = new Locacao();
-            UpdateModel(objeto);
+            Locacao locacao = new Locacao();
+            UpdateModel(locacao);
 
             var data = Request.Form["CPData"].ToString();
             DateTime dataC = Convert.ToDateTime(data);
-            objeto.Entrega = dataC;
+            locacao.Entrega = dataC;
 
-            dao.Finalizar(objeto);
+            _dao.Finalizar(locacao);
 
             TempData["success"] = "Locação finalizada com sucesso!";
             return RedirectToAction("Index");

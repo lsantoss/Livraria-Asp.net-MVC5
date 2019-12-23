@@ -1,5 +1,64 @@
 ﻿@model IEnumerable<Livraria.Models.Usuario>
 
+<h2>Lista de Usuários</h2>
+<p><button class="btn btn-link create" style="margin-left:-1%;">Inserir novo usuário</button></p>
+
+@using (Html.BeginForm("BuscarPorNome", "Usuario", FormMethod.Post))
+{
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-md-9">
+                <input type="text" placeholder="Buscar usuário por login" name="CPBusca" class="form-control" />
+            </div>
+            <div class="col-md-3 text-right">
+                <input type="submit" value="Buscar" class="btn btn-primary" />
+                <a href="Index" class="btn btn-info">Todos</a>
+            </div>
+        </div>
+    </div>
+
+    <br />
+}
+
+<table class="table">
+    <tr style="font-size:125%;">
+        <th>@Html.DisplayNameFor(model => model.Login)</th>
+        <th>@Html.DisplayNameFor(model => model.Senha)</th>
+        <th>@Html.DisplayNameFor(model => model.Privilegio)</th>
+        <th>@Html.DisplayNameFor(model => model.Validade)</th>
+        <th>Ações</th>
+    </tr>
+
+    @if (Model.Count() > 0)
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td style="vertical-align: middle;">@Html.DisplayFor(modelItem => item.Login)</td>
+                <td style="vertical-align: middle;">@Html.DisplayFor(modelItem => item.Senha)</td>
+                <td style="vertical-align: middle;">@Html.DisplayFor(modelItem => item.Privilegio)</td>
+                <td style="vertical-align: middle;">@Html.DisplayFor(modelItem => item.Validade)</td>
+                <td style="vertical-align: middle;">
+                    <button class="btn btn-success edit" data-id="@item.Id">Editar</button>
+                    <button class="btn btn-primary details" data-id="@item.Id">Detalhes</button>
+                    <button class="btn btn-danger delete" data-id="@item.Id">Apagar</button>
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="5">
+                <br />
+                <center><span class="text-uppercase">Não existe nenhum registro para ser listado!</span></center>
+            </td>
+        </tr>
+    }
+</table>
+
+<div id="modal" class="modal fade" role="dialog"></div>
+
 <script>
     $(function () {
         $(".details").click(function () {
@@ -27,61 +86,3 @@
         });
     })
 </script>
-
-<h2>Lista de Usuários</h2>
-<p><button class="btn btn-link create" style="margin-left:-1%;">Inserir novo usuário</button></p>
-
-@using (Html.BeginForm("BuscarPorNome", "Usuario", FormMethod.Post))
-{
-    <div class="form-horizontal">
-        <div class="row">
-            <div class="col-md-9">
-                <input type="text" placeholder="Buscar usuário por login" name="CPBusca" class="form-control" />
-            </div>
-            <div class="col-md-3 text-right">
-                <input type="submit" value="Buscar" class="btn btn-primary" />
-                <a href="Index" class="btn btn-info">Todos</a>
-            </div>
-        </div>
-    </div>
-    <br />
-}
-
-    <table class="table">
-        <tr style="font-size:125%;">
-            <th>@Html.DisplayNameFor(model => model.Login)</th>
-            <th>@Html.DisplayNameFor(model => model.Senha)</th>
-            <th>@Html.DisplayNameFor(model => model.Privilegio)</th>
-            <th>@Html.DisplayNameFor(model => model.Validade)</th>
-            <th>Ações</th>
-        </tr>
-
-        @if (Model.Count() > 0)
-        {
-            foreach (var item in Model)
-            {
-                <tr>
-                    <td style="vertical-align: middle;">@Html.DisplayFor(modelItem => item.Login)</td>
-                    <td style="vertical-align: middle;">@Html.DisplayFor(modelItem => item.Senha)</td>
-                    <td style="vertical-align: middle;">@Html.DisplayFor(modelItem => item.Privilegio)</td>
-                    <td style="vertical-align: middle;">@Html.DisplayFor(modelItem => item.Validade)</td>
-                    <td style="vertical-align: middle;">
-                        <button class="btn btn-success edit" data-id="@item.Id">Editar</button>
-                        <button class="btn btn-primary details" data-id="@item.Id">Detalhes</button>
-                        <button class="btn btn-danger delete" data-id="@item.Id">Apagar</button>
-                    </td>
-                </tr>
-            }
-        }
-        else
-        {
-            <tr>
-                <td colspan="5">
-                    <br />
-                    <center><span class="text-uppercase">Não existe nenhum registro para ser listado!</span></center>
-                </td>
-            </tr>
-        }
-    </table>
-
-<div id="modal" class="modal fade" role="dialog"></div>

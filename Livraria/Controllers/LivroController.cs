@@ -12,25 +12,25 @@ namespace Livraria.Controllers
     [HandleError(View = "Error", ExceptionType = typeof(InvalidOperationException))]
     public class LivroController : Controller
     {
-        private LivroDAO dao = new LivroDAO();
+        private readonly LivroDAO _dao = new LivroDAO();
 
         // GET: Livro
         public ActionResult Index()
         {
-            return View(dao.RetornarTodos());
+            return View(_dao.RetornarTodos());
         }
 
         // GET: Livro/BuscarPorNome
         public ActionResult BuscarPorNome()
         {
             string busca = Request.Form["CPBusca"].ToString();
-            return View("Index", dao.RetornarPorNome(busca));
+            return View("Index", _dao.RetornarPorNome(busca));
         }
 
         // GET: Livro/Details/5
         public PartialViewResult Details(int id)
         {
-            return PartialView(dao.RetornarPorId(id));
+            return PartialView(_dao.RetornarPorId(id));
         }
 
         // GET: Livro/Create
@@ -43,23 +43,24 @@ namespace Livraria.Controllers
         [HttpPost]
         public ActionResult Create(FormCollection collection, HttpPostedFileBase arquivo)
         {
-            Livro objeto = new Livro();
-            UpdateModel(objeto);
+            Livro livro = new Livro();
+            UpdateModel(livro);
 
             if (arquivo != null && arquivo.ContentLength > 0)
             {
-                var fileName = Path.GetFileName(arquivo.FileName);
-                var path = Path.Combine(Server.MapPath("~/Content/Imagens/"), fileName);
+                string fileName = Path.GetFileName(arquivo.FileName);
+                string path = Path.Combine(Server.MapPath("~/Content/Imagens/"), fileName);
                 arquivo.SaveAs(path);
-                objeto.Imagem = arquivo.FileName;
+
+                livro.Imagem = arquivo.FileName;
             }
             else
             {
-                var fileName = "Sem Capa.jpg";
-                objeto.Imagem = fileName;
+                string fileName = "Sem Capa.jpg";
+                livro.Imagem = fileName;
             }
 
-            dao.Inserir(objeto);
+            _dao.Inserir(livro);
             
             TempData["success"] = "Livro inserido com sucesso!";
             return RedirectToAction("Index");
@@ -68,30 +69,31 @@ namespace Livraria.Controllers
         // GET: Livro/Edit/5
         public PartialViewResult Edit(int id)
         {
-            return PartialView(dao.RetornarPorId(id));
+            return PartialView(_dao.RetornarPorId(id));
         }
 
         // POST: Livro/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection, HttpPostedFileBase arquivo)
         {
-            Livro objeto = new Livro();
-            UpdateModel(objeto);
+            Livro livro = new Livro();
+            UpdateModel(livro);
 
             if (arquivo != null && arquivo.ContentLength > 0)
             {
-                var fileName = Path.GetFileName(arquivo.FileName);
-                var path = Path.Combine(Server.MapPath("~/Content/Imagens/"), fileName);
+                string fileName = Path.GetFileName(arquivo.FileName);
+                string path = Path.Combine(Server.MapPath("~/Content/Imagens/"), fileName);
                 arquivo.SaveAs(path);
-                objeto.Imagem = arquivo.FileName;
+
+                livro.Imagem = arquivo.FileName;
             }
             else
             {
-                var fileName = "Sem Capa.jpg";
-                objeto.Imagem = fileName;
+                string fileName = "Sem Capa.jpg";
+                livro.Imagem = fileName;
             }
 
-            dao.Alterar(objeto);
+            _dao.Alterar(livro);
 
             TempData["success"] = "Livro editado com sucesso!";
             return RedirectToAction("Index");
@@ -100,14 +102,15 @@ namespace Livraria.Controllers
         // GET: Livro/Delete/5
         public PartialViewResult Delete(int id)
         {
-            return PartialView(dao.RetornarPorId(id));
+            return PartialView(_dao.RetornarPorId(id));
         }
 
         // POST: Livro/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            dao.Deletar(id);
+            _dao.Deletar(id);
+
             TempData["success"] = "Livro apagado com sucesso!";
             return RedirectToAction("Index");
         }

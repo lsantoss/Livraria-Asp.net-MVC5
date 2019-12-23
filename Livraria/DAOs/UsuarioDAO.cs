@@ -3,19 +3,27 @@ using Livraria.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Text;
 
 namespace Livraria.DAOs
 {
     public class UsuarioDAO
     {
+        private StringBuilder Sql = new StringBuilder();
+
         public IEnumerable<Usuario> RetornarTodos()
         {
-            using (var conexao = new SqlConnection(connStr))
+            using (var conexao = new SqlConnection(stringConexao))
             {
                 try
                 {
-                    var result = conexao.Query<Usuario>("select * from TBUsuario");
+                    Sql.Clear();
+                    Sql.Append("select * from TBUsuario");
+
+                    IEnumerable<Usuario> result = conexao.Query<Usuario>(Sql.ToString());
+
                     conexao.Close();
+
                     return result;
                 }
                 catch(Exception e)
@@ -27,15 +35,19 @@ namespace Livraria.DAOs
 
         public IEnumerable<Usuario> RetornarPorNome(string busca)
         {
-            using (var conexao = new SqlConnection(connStr))
+            using (SqlConnection conexao = new SqlConnection(stringConexao))
             {
                 try
                 {
-                    var result = conexao.Query<Usuario>(
-                        "select TBUsuario.* from TBUsuario " +
-                        "where TBUsuario.login like '%"+ busca + "%' " +
-                        "order by TBUsuario.login");
+                    Sql.Clear();
+                    Sql.Append("select TBUsuario.* from TBUsuario ");
+                    Sql.Append("where TBUsuario.login like '%" + busca + "%' ");
+                    Sql.Append("order by TBUsuario.login");
+
+                    IEnumerable<Usuario> result = conexao.Query<Usuario>(Sql.ToString());
+
                     conexao.Close();
+
                     return result;
                 }
                 catch (Exception e)
@@ -47,12 +59,17 @@ namespace Livraria.DAOs
 
         public Usuario RetornarPorId(int id)
         {
-            using (var conexao = new SqlConnection(connStr))
+            using (SqlConnection conexao = new SqlConnection(stringConexao))
             {
                 try
                 {
-                    var result = conexao.QueryFirst<Usuario>("select * from TBUsuario where id=@id", new { Id = id });
+                    Sql.Clear();
+                    Sql.Append("select * from TBUsuario where id=@id");
+
+                    Usuario result = conexao.QueryFirst<Usuario>(Sql.ToString(), new { Id = id });
+
                     conexao.Close();
+
                     return result;
                 }
                 catch (Exception e)
@@ -62,12 +79,37 @@ namespace Livraria.DAOs
             }
         }
 
-        public void Inserir(Usuario obj)
+        public Usuario Logar(Usuario obj)
         {
-            using (var conexao = new SqlConnection(connStr))
+            using (SqlConnection conexao = new SqlConnection(stringConexao))
             {
                 try
                 {
+                    Sql.Clear();
+                    Sql.Append("select * from TBUsuario where login=@login and senha=@senha");
+
+                    Usuario result = conexao.QueryFirst<Usuario>(Sql.ToString(), obj);
+
+                    conexao.Close();
+
+                    return result;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
+
+        public void Inserir(Usuario obj)
+        {
+            using (SqlConnection conexao = new SqlConnection(stringConexao))
+            {
+                try
+                {
+                    Sql.Clear();
+                    Sql.Append("insert into TBUsuario (id, login, senha, validade, privilegio) values (@id, @login, @senha, @validade, @privilegio)");
+
                     if (obj.Id == 0)
                         obj.Id = RetornarUltimoId() + 1;
 
@@ -75,7 +117,8 @@ namespace Livraria.DAOs
                     validade = validade.AddHours(2);
                     obj.Validade = validade;
 
-                    conexao.Execute("insert into TBUsuario (id, login, senha, validade, privilegio) values (@id, @login, @senha, @validade, @privilegio)", obj);
+                    conexao.Execute(Sql.ToString(), obj);
+
                     conexao.Close();
                 }
                 catch (Exception e)
@@ -85,33 +128,21 @@ namespace Livraria.DAOs
             }
         }
 
-        public void Deletar(int id)
-        {
-            using (var conexao = new SqlConnection(connStr))
-            {
-                try
-                {
-                    var result = conexao.Execute("delete from TBUsuario where id=@id", new { Id = id });
-                    conexao.Close();
-                }
-                catch (Exception e)
-                {
-                    throw new Exception("Não foi possível apagar usuário!", e);
-                }
-            }
-        }
-
         public void Alterar(Usuario obj)
         {
-            using (var conexao = new SqlConnection(connStr))
+            using (SqlConnection conexao = new SqlConnection(stringConexao))
             {
                 try
                 {
+                    Sql.Clear();
+                    Sql.Append("update TBUsuario set login=@login, senha=@senha, validade=@validade, privilegio=@privilegio where id=@id");
+
                     DateTime validade = DateTime.Now;
                     validade = validade.AddHours(2);
                     obj.Validade = validade;
 
-                    conexao.Execute("update TBUsuario set login=@login, senha=@senha, validade=@validade, privilegio=@privilegio where id=@id", obj);
+                    conexao.Execute(Sql.ToString(), obj);
+
                     conexao.Close();
                 }
                 catch (Exception e)
@@ -121,14 +152,39 @@ namespace Livraria.DAOs
             }
         }
 
-        private int RetornarUltimoId()
+        public void Deletar(int id)
         {
-            using (var conexao = new SqlConnection(connStr))
+            using (SqlConnection conexao = new SqlConnection(stringConexao))
             {
                 try
                 {
-                    var result = conexao.QuerySingle<int>("select max(id) from TBUsuario");
+                    Sql.Clear();
+                    Sql.Append("delete from TBUsuario where id=@id");
+
+                    conexao.Execute(Sql.ToString(), new { Id = id });
+
                     conexao.Close();
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("Não foi possível apagar usuário!", e);
+                }
+            }
+        }
+
+        private int RetornarUltimoId()
+        {
+            using (SqlConnection conexao = new SqlConnection(stringConexao))
+            {
+                try
+                {
+                    Sql.Clear();
+                    Sql.Append("select max(id) from TBUsuario");
+
+                    int result = conexao.QuerySingle<int>(Sql.ToString());
+
+                    conexao.Close();
+
                     return result;
                 }
                 catch
@@ -139,23 +195,6 @@ namespace Livraria.DAOs
             }
         }
 
-        public Usuario Logar(Usuario obj)
-        {
-            using (var conexao = new SqlConnection(connStr))
-            {
-                try
-                {
-                    var result = conexao.QueryFirst<Usuario>("select * from TBUsuario where login=@login and senha=@senha", obj);
-                    conexao.Close();
-                    return result;
-                }
-                catch
-                {
-                    return null;
-                }
-            }
-        }
-
-        private static readonly string connStr = @"Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=Livraria;Data Source=SANTOS-PC\SQLEXPRESS;";
+        private static readonly string stringConexao = @"Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=Livraria;Data Source=SANTOS-PC\SQLEXPRESS;";
     }
 }
