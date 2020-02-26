@@ -419,7 +419,6 @@ C:\Users\l_san\Documents\GitHub\Livraria\Livraria\bin\pt-br\System.Web.Webpages.
 C:\Users\l_san\Documents\GitHub\Livraria\Livraria\bin\pt-br\System.Web.Helpers.resources.dll
 C:\Users\l_san\Documents\GitHub\Livraria\Livraria\bin\pt-br\System.Web.Mvc.resources.dll
 C:\Users\l_san\Documents\GitHub\Livraria\Livraria\obj\Debug\Livraria.csprojAssemblyReference.cache
-C:\Users\l_san\Documents\GitHub\Livraria\Livraria\obj\Debug\Livraria.csproj.CoreCompileInputs.cache
 C:\Users\l_san\Documents\GitHub\Livraria\Livraria\obj\Debug\Livraria.csproj.CopyComplete
 C:\Users\l_san\Documents\GitHub\Livraria\Livraria\obj\Debug\Livraria.dll
 C:\Users\l_san\Documents\GitHub\Livraria\Livraria\obj\Debug\Livraria.pdb

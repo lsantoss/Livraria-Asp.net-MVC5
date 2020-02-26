@@ -1,33 +1,5 @@
 ﻿@model IEnumerable<Livraria.Models.Locacao>
 
-<script>
-    $(function () {
-        $(".details").click(function () {
-            var id = $(this).attr("data-id");
-            $("#modal").load("Details?id=" + id, function () {
-                $("#modal").modal();
-            })
-        });
-        $(".finalizar").click(function () {
-            var id = $(this).attr("data-id");
-            $("#modal").load("Finalizar?id=" + id, function () {
-                $("#modal").modal();
-            })
-        });
-        $(".delete").click(function () {
-            var id = $(this).attr("data-id");
-            $("#modal").load("Delete?id=" + id, function () {
-                $("#modal").modal();
-            })
-        });
-        $(".create").click(function () {
-            $("#modal").load("Create", function () {
-                $("#modal").modal();
-            })
-        });
-    })
-</script>
-
 <h2>Lista de todas Locações</h2>
 
 <p>
@@ -73,6 +45,8 @@
                 <td style="vertical-align: middle;">R$ @String.Format("{0:n}", item.Preco)</td>
 
                 <td style="vertical-align: middle;" class="text-right">
+                    <button class="btn btn-primary details" data-id="@item.Id">Detalhes</button>
+
                     @{
                         var dataE = item.Entrega;
                         DateTime dataInv = Convert.ToDateTime("01/01/0001 00:00:00");
@@ -83,8 +57,6 @@
                             <button class="btn btn-success finalizar" data-id="@item.Id">Finalizar</button>
                         }
                     }
-
-                    <button class="btn btn-primary details" data-id="@item.Id">Detalhes</button>
 
                     @if (Int32.Parse(Session["Priv"].ToString()) == 1)
                     {
@@ -106,3 +78,31 @@
 </table>
 
 <div id="modal" class="modal fade" role="dialog"></div>
+
+<script>
+    $(function () {
+        $(".details").click(function () {
+            var id = $(this).attr("data-id");
+            $("#modal").load("Details?id=" + id, function () {
+                $("#modal").modal();
+            })
+        });
+        $(".finalizar").click(function () {
+            var id = $(this).attr("data-id");
+            $("#modal").load("Finalizar?id=" + id, function () {
+                $("#modal").modal();
+            })
+        });
+        $(".delete").click(function () {
+            var id = $(this).attr("data-id");
+            $("#modal").load("Delete?id=" + id, function () {
+                $("#modal").modal();
+            })
+        });
+        $(".create").click(function () {
+            $("#modal").load("Create", function () {
+                $("#modal").modal();
+            })
+        });
+    })
+</script>

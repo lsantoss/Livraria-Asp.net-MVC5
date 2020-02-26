@@ -1,5 +1,68 @@
 ﻿@model IEnumerable<Livraria.Models.Cliente>
 
+<h2>Lista de Clientes</h2>
+<p><button class="btn btn-link create" style="margin-left:-1%;">Inserir novo cliente</button></p>
+
+@using (Html.BeginForm("BuscarPorNome", "Home", FormMethod.Post))
+{
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-md-9">
+                <input type="text" placeholder="Buscar cliente por nome" name="CPBusca" class="form-control" />
+            </div>
+            <div class="col-md-3 text-right">
+                <input type="submit" value="Buscar" class="btn btn-primary" />
+                <a href="Index" class="btn btn-info">Todos</a>
+            </div>
+        </div>
+    </div>
+    <br />
+}
+
+<table class="table">
+    <tr style="font-size:125%;">
+        <th>@Html.DisplayNameFor(model => model.Nome)</th>
+        <th>@Html.DisplayNameFor(model => model.Idade)</th>
+        <th>@Html.DisplayNameFor(model => model.Sexo)</th>
+        <th>@Html.DisplayNameFor(model => model.Telefone)</th>
+        <th>@Html.DisplayNameFor(model => model.Cpf)</th>
+        <th>Ações</th>
+    </tr>
+
+    @if (Model.Count() > 0)
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td style="vertical-align: middle;">@Html.DisplayFor(modelItem => item.Nome)</td>
+                <td style="vertical-align: middle;">@Html.DisplayFor(modelItem => item.Idade)</td>
+                <td style="vertical-align: middle;">@Html.DisplayFor(modelItem => item.Sexo)</td>
+                <td style="vertical-align: middle;">@Html.DisplayFor(modelItem => item.Telefone)</td>
+                <td style="vertical-align: middle;">@Html.DisplayFor(modelItem => item.Cpf)</td>
+                <td style="vertical-align: middle;">
+                    <button class="btn btn-primary details" data-id="@item.Id">Detalhes</button>
+                    <button class="btn btn-success edit" data-id="@item.Id">Editar</button>
+                    @if (Int32.Parse(Session["Priv"].ToString()) == 1)
+                    {
+                        <button class="btn btn-danger delete" data-id="@item.Id">Apagar</button>
+                    }
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="6">
+                <br />
+                <center><span class="text-uppercase">Não existe nenhum registro para ser listado!</span></center>
+            </td>
+        </tr>
+    }
+</table>
+
+<div id="modal" class="modal fade" role="dialog"></div>
+
 <script>
     $(function () {
         $(".details").click(function () {
@@ -27,67 +90,3 @@
         });
     })
 </script>
-
-<h2>Lista de Clientes</h2>
-<p><button class="btn btn-link create" style="margin-left:-1%;">Inserir novo cliente</button></p>
-
-@using (Html.BeginForm("BuscarPorNome", "Home", FormMethod.Post))
-{
-    <div class="form-horizontal">
-        <div class="row">
-            <div class="col-md-9">
-                <input type="text" placeholder="Buscar cliente por nome" name="CPBusca" class="form-control" />
-            </div>
-            <div class="col-md-3 text-right">
-                <input type="submit" value="Buscar" class="btn btn-primary" />
-                <a href="Index" class="btn btn-info">Todos</a>
-            </div>
-        </div>
-    </div>
-    <br />
-}
-
-    <table class="table">
-        <tr style="font-size:125%;">
-            <th>@Html.DisplayNameFor(model => model.Nome)</th>
-            <th>@Html.DisplayNameFor(model => model.Idade)</th>
-            <th>@Html.DisplayNameFor(model => model.Sexo)</th>
-            <th>@Html.DisplayNameFor(model => model.Telefone)</th>
-            <th>@Html.DisplayNameFor(model => model.Cpf)</th>
-            <th>Ações</th>
-        </tr>
-
-
-        @if (Model.Count() > 0)
-        {
-            foreach (var item in Model)
-            {
-                <tr>
-                    <td style="vertical-align: middle;">@Html.DisplayFor(modelItem => item.Nome)</td>
-                    <td style="vertical-align: middle;">@Html.DisplayFor(modelItem => item.Idade)</td>
-                    <td style="vertical-align: middle;">@Html.DisplayFor(modelItem => item.Sexo)</td>
-                    <td style="vertical-align: middle;">@Html.DisplayFor(modelItem => item.Telefone)</td>
-                    <td style="vertical-align: middle;">@Html.DisplayFor(modelItem => item.Cpf)</td>
-                    <td style="vertical-align: middle;">
-                        <button class="btn btn-success edit" data-id="@item.Id">Editar</button>
-                        <button class="btn btn-primary details" data-id="@item.Id">Detalhes</button>
-                        @if (Int32.Parse(Session["Priv"].ToString()) == 1)
-                        {
-                            <button class="btn btn-danger delete" data-id="@item.Id">Apagar</button>
-                        }
-                    </td>
-                </tr>
-            }
-        }
-        else
-        {
-            <tr>
-                <td colspan="6">
-                    <br />
-                    <center><span class="text-uppercase">Não existe nenhum registro para ser listado!</span></center>
-                </td>
-            </tr>
-        }
-    </table>
-
-<div id="modal" class="modal fade" role="dialog"></div>

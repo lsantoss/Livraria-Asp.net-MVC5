@@ -18,13 +18,10 @@ namespace Livraria.Controllers
         private readonly LivroDAO _livroDao = new LivroDAO();
         private readonly ClienteDAO _clienteDao = new ClienteDAO();
 
-        // GET: Relatorio
-        public ActionResult Index()
-        {
-            return View();
-        }
-        
-        public void GerarPDF(string conteudo, string titulo)
+        private static readonly string diretorioImagens = AppDomain.CurrentDomain.BaseDirectory.ToString() + "Content\\Imagens\\";
+                
+        // GerarPDF(conteudo, titulo)
+        private void GerarPDF(string conteudo, string titulo)
         {
             PdfDocument document = PdfGenerator.GeneratePdf(conteudo, PageSize.A4);
 
@@ -43,6 +40,11 @@ namespace Livraria.Controllers
             Response.End();
         }
 
+        // GET: Relatorio
+        public ActionResult Index()
+        {
+            return View();
+        }
 
         // GET: Relatorio/Lucros
         public void Lucros()
@@ -52,7 +54,7 @@ namespace Livraria.Controllers
             string conteudo =
                 "<table class='table' cellspacing='5' width='100%'>" +
                 "   <tr>" +
-                "       <td><img src='C:\\Users\\l_san\\Documents\\GitHub\\Livraria\\Livraria\\Content\\Imagens\\logo-otacom.png' height='50' width='180' /></td>" +
+                "       <td><img src='" + diretorioImagens +"logo-report.png' height='85' width='180' /></td>" +
                 "       <td><h1>Relatório de Lucros de Locações</h1></td>" +
                 "   </tr>" +
                 "</table>" +
@@ -60,7 +62,7 @@ namespace Livraria.Controllers
                 "<div style='margin-left:5%;>" +
                     "<h2>Lucros gerados: R$ " + @String.Format("{0:n}", _locacaoDao.Lucros()) + "</h2>" +
                 "</div>" +
-                "<p align='center'>Livraria Otacom - " + DateTime.Now.ToString() + "</p>";
+                "<p align='center'>Livraria Asp.Net-MVC5 - " + DateTime.Now.ToString() + "</p>";
 
             GerarPDF(conteudo, titulo);
         }
@@ -75,7 +77,7 @@ namespace Livraria.Controllers
             string cabecalho =
                 "<table class='table' cellspacing='5' width='100%'>" +
                 "   <tr>" +
-                "       <td><img src='C:\\Users\\l_san\\Documents\\GitHub\\Livraria\\Livraria\\Content\\Imagens\\logo-otacom.png' height='50' width='180' /></td>" +
+                "       <td><img src='" + diretorioImagens + "logo-report.png' height='75' width='180' /></td>" +
                 "       <td><h1>Relatório de todos os livros</h1></td>" +
                 "   </tr>" +
                 "</table>" +
@@ -94,7 +96,7 @@ namespace Livraria.Controllers
             foreach (var item in livros)
             {
                 myStringBuilder.Append("<tr>");
-                myStringBuilder.Append("<td><img src='C:\\Users\\l_san\\Documents\\GitHub\\Livraria\\Livraria\\Content\\Imagens\\" + item.Imagem + "' height='80' width='60' /></td>");
+                myStringBuilder.Append("<td><img src='" + diretorioImagens + item.Imagem + "' height='80' width='60' /></td>");
                 myStringBuilder.Append("<td>" + item.Nome + "</td>");
                 myStringBuilder.Append("<td>" + item.Autor + "</td>");
                 myStringBuilder.Append("<td>" + item.Edicao + "</td>");
@@ -105,7 +107,7 @@ namespace Livraria.Controllers
             string footer =
                 "</table>" +
                 "<br/>" +
-                "<p align='center'>Livraria Otacom - " + DateTime.Now.ToString() + "</p>";
+                "<p align='center'>Livraria Asp.Net-MVC5 - " + DateTime.Now.ToString() + "</p>";
 
             myStringBuilder.Append(footer);
 
@@ -122,7 +124,7 @@ namespace Livraria.Controllers
             string cabecalho = 
                 "<table class='table' cellspacing='5' width='100%'>" +
                 "   <tr>" +
-                "       <td><img src='C:\\Users\\l_san\\Documents\\GitHub\\Livraria\\Livraria\\Content\\Imagens\\logo-otacom.png' height='50' width='180' /></td>" +
+                "       <td><img src='" + diretorioImagens + "logo-report.png' height='75' width='180' /></td>" +
                 "       <td><h1>Relatório de livros disponíveis</h1></td>" +
                 "   </tr>" +
                 "</table>" +
@@ -141,7 +143,7 @@ namespace Livraria.Controllers
             foreach (var item in livros)
             {
                 myStringBuilder.Append("<tr>");
-                myStringBuilder.Append("<td><img src='C:\\Users\\l_san\\Documents\\GitHub\\Livraria\\Livraria\\Content\\Imagens\\" + item.Imagem + "' height='80' width='60' /></td>");
+                myStringBuilder.Append("<td><img src='" + diretorioImagens + item.Imagem + "' height='80' width='60' /></td>");
                 myStringBuilder.Append("<td>" + item.Nome + "</td>");
                 myStringBuilder.Append("<td>" + item.Autor + "</td>");
                 myStringBuilder.Append("<td>" + item.Edicao + "</td>");
@@ -152,7 +154,7 @@ namespace Livraria.Controllers
             string footer =
                 "</table>" +
                 "<br/>" +
-                "<p align='center'>Livraria Otacom - " + DateTime.Now.ToString() + "</p>";
+                "<p align='center'>Livraria Asp.Net-MVC5 - " + DateTime.Now.ToString() + "</p>";
 
             myStringBuilder.Append(footer);
 
@@ -169,7 +171,7 @@ namespace Livraria.Controllers
             string cabecalho =
                 "<table class='table' cellspacing='5' width='100%'>" +
                 "   <tr>" +
-                "       <td><img src='C:\\Users\\l_san\\Documents\\GitHub\\Livraria\\Livraria\\Content\\Imagens\\logo-otacom.png' height='50' width='180' /></td>" +
+                "       <td><img src='" + diretorioImagens + "logo-report.png' height='75' width='180' /></td>" +
                 "       <td><h1>Relatório de livros alugados</h1></td>" +
                 "   </tr>" +
                 "</table>" +
@@ -188,7 +190,7 @@ namespace Livraria.Controllers
             foreach (var item in livros)
             {
                 myStringBuilder.Append("<tr>");
-                myStringBuilder.Append("<td><img src='C:\\Users\\l_san\\Documents\\GitHub\\Livraria\\Livraria\\Content\\Imagens\\" + item.Imagem + "' height='80' width='60' /></td>");
+                myStringBuilder.Append("<td><img src='" + diretorioImagens + item.Imagem + "' height='80' width='60' /></td>");
                 myStringBuilder.Append("<td>" + item.Nome + "</td>");
                 myStringBuilder.Append("<td>" + item.Autor + "</td>");
                 myStringBuilder.Append("<td>" + item.Edicao + "</td>");
@@ -199,7 +201,7 @@ namespace Livraria.Controllers
             string footer =
                 "</table>" +
                 "<br/>" +
-                "<p align='center'>Livraria Otacom - " + DateTime.Now.ToString() + "</p>";
+                "<p align='center'>Livraria Asp.Net-MVC5 - " + DateTime.Now.ToString() + "</p>";
 
             myStringBuilder.Append(footer);
 
@@ -216,7 +218,7 @@ namespace Livraria.Controllers
             string cabecalho =
                 "<table class='table' cellspacing='5' width='100%'>" +
                 "   <tr>" +
-                "       <td><img src='C:\\Users\\l_san\\Documents\\GitHub\\Livraria\\Livraria\\Content\\Imagens\\logo-otacom.png' height='50' width='180' /></td>" +
+                "       <td><img src='" + diretorioImagens + "logo-report.png' height='75' width='180' /></td>" +
                 "       <td><h1>Quantidade de vezes locado</h1></td>" +
                 "   </tr>" +
                 "</table>" +
@@ -236,7 +238,7 @@ namespace Livraria.Controllers
             foreach (var item in livros)
             {
                 myStringBuilder.Append("<tr>");
-                myStringBuilder.Append("<td><img src='C:\\Users\\l_san\\Documents\\GitHub\\Livraria\\Livraria\\Content\\Imagens\\" + item.Imagem + "' height='80' width='60' /></td>");
+                myStringBuilder.Append("<td><img src='" + diretorioImagens + item.Imagem + "' height='80' width='60' /></td>");
                 myStringBuilder.Append("<td>" + item.Nome + "</td>");
                 myStringBuilder.Append("<td>" + item.Autor + "</td>");
                 myStringBuilder.Append("<td>" + item.Edicao + "</td>");
@@ -248,7 +250,7 @@ namespace Livraria.Controllers
             string footer =
                 "</table>" +
                 "<br/>" +
-                "<p align='center'>Livraria Otacom - " + DateTime.Now.ToString() + "</p>";
+                "<p align='center'>Livraria Asp.Net-MVC5 - " + DateTime.Now.ToString() + "</p>";
 
             myStringBuilder.Append(footer);
 
@@ -265,7 +267,7 @@ namespace Livraria.Controllers
             string cabecalho =
                 "<table class='table' cellspacing='5' width='100%'>" +
                 "   <tr>" +
-                "       <td><img src='C:\\Users\\l_san\\Documents\\GitHub\\Livraria\\Livraria\\Content\\Imagens\\logo-otacom.png' height='50' width='180' /></td>" +
+                "       <td><img src='" + diretorioImagens + "logo-report.png' height='75' width='180' /></td>" +
                 "       <td><h1>Relatório dos top 5 mais locados</h1></td>" +
                 "   </tr>" +
                 "</table>" +
@@ -285,7 +287,7 @@ namespace Livraria.Controllers
             foreach (var item in livros)
             {
                 myStringBuilder.Append("<tr>");
-                myStringBuilder.Append("<td><img src='C:\\Users\\l_san\\Documents\\GitHub\\Livraria\\Livraria\\Content\\Imagens\\" + item.Imagem + "' height='80' width='60' /></td>");
+                myStringBuilder.Append("<td><img src='" + diretorioImagens + item.Imagem + "' height='80' width='60' /></td>");
                 myStringBuilder.Append("<td>" + item.Nome + "</td>");
                 myStringBuilder.Append("<td>" + item.Autor + "</td>");
                 myStringBuilder.Append("<td>" + item.Edicao + "</td>");
@@ -297,7 +299,7 @@ namespace Livraria.Controllers
             string footer =
                 "</table>" +
                 "<br/>" +
-                "<p align='center'>Livraria Otacom - " + DateTime.Now.ToString() + "</p>";
+                "<p align='center'>Livraria Asp.Net-MVC5 - " + DateTime.Now.ToString() + "</p>";
 
             myStringBuilder.Append(footer);
 
@@ -314,7 +316,7 @@ namespace Livraria.Controllers
             string cabecalho =
                 "<table class='table' cellspacing='5' width='100%'>" +
                 "   <tr>" +
-                "       <td><img src='C:\\Users\\l_san\\Documents\\GitHub\\Livraria\\Livraria\\Content\\Imagens\\logo-otacom.png' height='50' width='180' /></td>" +
+                "       <td><img src='" + diretorioImagens + "logo-report.png' height='75' width='180' /></td>" +
                 "       <td><h1>Relatório de todos clientes</h1></td>" +
                 "   </tr>" +
                 "</table>" +
@@ -344,7 +346,7 @@ namespace Livraria.Controllers
             string footer =
                 "</table>" +
                 "<br/>" +
-                "<p align='center'>Livraria Otacom - " + DateTime.Now.ToString() + "</p>";
+                "<p align='center'>Livraria Asp.Net-MVC5 - " + DateTime.Now.ToString() + "</p>";
 
             myStringBuilder.Append(footer);
 
@@ -361,7 +363,7 @@ namespace Livraria.Controllers
             string cabecalho =
                 "<table class='table' cellspacing='5' width='100%'>" +
                 "   <tr>" +
-                "       <td><img src='C:\\Users\\l_san\\Documents\\GitHub\\Livraria\\Livraria\\Content\\Imagens\\logo-otacom.png' height='50' width='180' /></td>" +
+                "       <td><img src='" + diretorioImagens + "logo-report.png' height='75' width='180' /></td>" +
                 "       <td><h1>Relatório de todas locações</h1></td>" +
                 "   </tr>" +
                 "</table>" +
@@ -398,7 +400,7 @@ namespace Livraria.Controllers
             string footer =
                 "</table>" +
                 "<br/>" +
-                "<p align='center'>Livraria Otacom - " + DateTime.Now.ToString() + "</p>";
+                "<p align='center'>Livraria Asp.Net-MVC5 - " + DateTime.Now.ToString() + "</p>";
 
             myStringBuilder.Append(footer);
 
@@ -415,7 +417,7 @@ namespace Livraria.Controllers
             string cabecalho =
                 "<table class='table' cellspacing='5' width='100%'>" +
                 "   <tr>" +
-                "       <td><img src='C:\\Users\\l_san\\Documents\\GitHub\\Livraria\\Livraria\\Content\\Imagens\\logo-otacom.png' height='50' width='180' /></td>" +
+                "       <td><img src='" + diretorioImagens + "logo-report.png' height='75' width='180' /></td>" +
                 "       <td><h1>Relatório de locações em aberto</h1></td>" +
                 "   </tr>" +
                 "</table>" +
@@ -452,7 +454,7 @@ namespace Livraria.Controllers
             string footer =
                 "</table>" +
                 "<br/>" +
-                "<p align='center'>Livraria Otacom - " + DateTime.Now.ToString() + "</p>";
+                "<p align='center'>Livraria Asp.Net-MVC5 - " + DateTime.Now.ToString() + "</p>";
 
             myStringBuilder.Append(footer);
 
@@ -469,7 +471,7 @@ namespace Livraria.Controllers
             string cabecalho =
                 "<table class='table' cellspacing='5' width='100%'>" +
                 "   <tr>" +
-                "       <td><img src='C:\\Users\\l_san\\Documents\\GitHub\\Livraria\\Livraria\\Content\\Imagens\\logo-otacom.png' height='50' width='180' /></td>" +
+                "       <td><img src='" + diretorioImagens + "logo-report.png' height='75' width='180' /></td>" +
                 "       <td><h1>Relatório de locações finalizadas</h1></td>" +
                 "   </tr>" +
                 "</table>" +
@@ -506,7 +508,7 @@ namespace Livraria.Controllers
             string footer =
                 "</table>" +
                 "<br/>" +
-                "<p align='center'>Livraria Otacom - " + DateTime.Now.ToString() + "</p>";
+                "<p align='center'>Livraria Asp.Net-MVC5 - " + DateTime.Now.ToString() + "</p>";
 
             myStringBuilder.Append(footer);
 

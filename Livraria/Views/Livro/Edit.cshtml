@@ -1,13 +1,5 @@
 ﻿@model Livraria.Models.Livro
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        var $seuCampoISBN = $("#ISBN");
-        $seuCampoISBN.mask('000-00-0000-000-0', { reverse: true });
-    });
-</script>
-
-
 <div class="modal-dialog modal-lg" style="z-index: 1100;">
     <div class="modal-content">
         <div class="modal-header">
@@ -73,7 +65,7 @@
                     <div class="control-group">
                         <div>
                             <br />
-                            <input type="file" id="arquivo" name="arquivo" class="form-control-file"/ >
+                            <input type="file" id="arquivo" name="arquivo" class="form-control-file" />
                         </div>
                     </div>
 
@@ -96,3 +88,10 @@
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var $seuCampoISBN = $("#ISBN");
+        $seuCampoISBN.mask('000-00-0000-000-0', { reverse: true });
+    });
+</script>

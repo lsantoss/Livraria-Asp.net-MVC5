@@ -1,15 +1,5 @@
 ﻿@model Livraria.Models.Cliente
 
-<script type="text/javascript">
-	$(document).ready(function () {
-		var $seuCampoTel = $("#TEL");
-		$seuCampoTel.mask('00000-0000', { reverse: true });
-
-		var $seuCampoCpf = $("#CPF");
-		$seuCampoCpf.mask('000.000.000-00', { reverse: true });
-	});
-</script>
-
 <div class="modal-dialog modal-lg" style="z-index: 1100;">
     <div class="modal-content">
         <div class="modal-header">
@@ -63,8 +53,15 @@
                     </div>
                     <div class="control-group">
                         <div class="floating-label-form-group controls mb-0 pb-2">
-                            @Html.EditorFor(model => model.Telefone, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite o Telefone",
-                         @id= "TEL"} })
+                            @Html.EditorFor(model => model.Telefone, new
+                            {
+                                htmlAttributes = new
+                                {
+                                    @class = "form-control",
+                                    placeholder = "Digite o Telefone",
+                         @id = "TEL"
+                                }
+                            })
                             @Html.ValidationMessageFor(model => model.Telefone, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -95,3 +92,13 @@
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var $seuCampoTel = $("#TEL");
+        $seuCampoTel.mask('00000-0000', { reverse: true });
+
+        var $seuCampoCpf = $("#CPF");
+        $seuCampoCpf.mask('000.000.000-00', { reverse: true });
+    });
+</script>
